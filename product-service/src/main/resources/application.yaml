@@ -1,0 +1,22 @@
+server:
+  port: 9902
+  servlet:
+    context-path: /product-service
+spring:
+  application:
+    name: product-service
+  config:
+    import: optional:configserver:http://localhost:9900
+  datasource:
+    url: jdbc:postgresql://localhost:5432/productdb
+    username: postgres
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    show-sql: true

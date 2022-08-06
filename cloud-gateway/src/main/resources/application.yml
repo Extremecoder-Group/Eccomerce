@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  config:
+    import: optional:configserver:http://localhost:9900
+  cloud:
+    gateway:
+      routes:
+        - id: image-service
+          uri: lb://IMAGE-SERVICE
+          predicates:
+            - Path=/image-service/**
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/product-service/**
+server:
+  port: 8181

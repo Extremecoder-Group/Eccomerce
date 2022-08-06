@@ -1,0 +1,22 @@
+server:
+  port: 9901
+  servlet:
+    context-path: /image-service
+spring:
+  application:
+    name: image-service
+  config:
+    import: optional:configserver:http://localhost:9900
+  datasource:
+    url: jdbc:postgresql://localhost:5432/imagedb
+    username: postgres
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    show-sql: true
