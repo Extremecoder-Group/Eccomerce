@@ -10,7 +10,7 @@
     <module>service-registry</module>
     <module>cloud-config-server</module>
     <module>cloud-gateway</module>
-    <module>image-service</module>
+    <module>file-service</module>
     <module>product-service</module>
   </modules>
 </project>

@@ -6,10 +6,10 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: image-service
-          uri: lb://IMAGE-SERVICE
+        - id: file-service
+          uri: lb://FILE-SERVICE
           predicates:
-            - Path=/image-service/**
+            - Path=/file-service/**
         - id: product-service
           uri: lb://PRODUCT-SERVICE
           predicates:

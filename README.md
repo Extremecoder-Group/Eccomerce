@@ -31,10 +31,10 @@ microservice:
     endpoints:
       endpoint:
         uri: http://PRODUCT-SERVICE
-  image-service:
+  file-service:
     endpoints:
       endpoint:
-        uri: http://IMAGE-SERVICE  
+        uri: http://FILE-SERVICE  
 ```
 2. Need to add the bellows dependencies:
 ```
@@ -65,10 +65,10 @@ spring
   cloud:
     gateway:
       routes:
-        - id: image-service
-          uri: lb://IMAGE-SERVICE
+        - id: file-service
+          uri: lb://FILE-SERVICE
           predicates:
-            - Path=/image-service/**
+            - Path=/file-service/**
         - id: product-service
           uri: lb://PRODUCT-SERVICE
           predicates:

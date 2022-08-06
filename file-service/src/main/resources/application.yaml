@@ -1,12 +1,18 @@
 server:
   port: 9901
   servlet:
-    context-path: /image-service
+    context-path: /file-service
 spring:
   application:
-    name: image-service
+    name: file-service
   config:
     import: optional:configserver:http://localhost:9900
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
   datasource:
     url: jdbc:postgresql://localhost:5432/imagedb
     username: postgres
@@ -20,3 +26,5 @@ spring:
           lob:
             non_contextual_creation: true
     show-sql: true
+file:
+  upload-dir: /Users/ecommerce/uploads

@@ -24,13 +24,13 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Value("${microservice.image-service.endpoints.endpoint.uri}")
+    @Value("${microservice.file-service.endpoints.endpoint.uri}")
     private String ENDPOINT_URL;
 
     @Override
     public List<Product> getList() {
-        String imageResponse = template.getForObject(ENDPOINT_URL + "/image-service/image/", String.class);
-        logger.info("IMAGE-SERVICE-RESPONSE: " + imageResponse);
+        String imageResponse = template.getForObject(ENDPOINT_URL + "/file-service/image/", String.class);
+        logger.info("FILE-SERVICE-RESPONSE: " + imageResponse);
         return productRepository.findAll();
     }
 }
