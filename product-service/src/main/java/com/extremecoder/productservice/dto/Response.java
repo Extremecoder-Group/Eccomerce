@@ -3,6 +3,7 @@ package com.extremecoder.productservice.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Setter
@@ -11,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Response {
-    private Long timeStamp;
+    private LocalDateTime timeStamp;
     private int statusCode;
     private String status;
     private String message;
