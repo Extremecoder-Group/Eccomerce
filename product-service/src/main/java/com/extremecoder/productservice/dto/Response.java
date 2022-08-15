@@ -8,18 +8,16 @@ import java.util.List;
 
 @Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class Response {
+public class Response<T> {
     private LocalDateTime timeStamp;
-    private int statusCode;
+    private Integer statusCode;
     private String status;
     private String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Object content;
+    private T content;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private int numberOfElement;
+    private Integer numberOfElement;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long rowCount;
     @JsonInclude(JsonInclude.Include.NON_NULL)

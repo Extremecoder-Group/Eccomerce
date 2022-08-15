@@ -6,8 +6,6 @@ import lombok.*;
 
 @Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class ErrorResponseDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
