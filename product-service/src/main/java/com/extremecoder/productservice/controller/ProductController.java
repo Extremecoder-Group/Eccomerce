@@ -2,7 +2,7 @@ package com.extremecoder.productservice.controller;
 
 import com.extremecoder.productservice.model.Product;
 import com.extremecoder.productservice.service.ProductService;
-import com.extremecoder.productservice.utils.UrlConstraint;
+import com.extremecoder.productservice.constraint.UrlConstraint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

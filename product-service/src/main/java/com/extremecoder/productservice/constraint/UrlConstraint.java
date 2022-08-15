@@ -1,4 +1,4 @@
-package com.extremecoder.productservice.utils;
+package com.extremecoder.productservice.constraint;
 
 public final class UrlConstraint {
 
