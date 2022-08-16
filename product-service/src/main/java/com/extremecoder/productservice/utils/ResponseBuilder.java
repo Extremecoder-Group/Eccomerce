@@ -6,23 +6,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class ResponseBuilder {
     private ResponseBuilder() {
     }
 
     private static List<ErrorResponseDto> getCustomError(BindingResult result) {
-        List<ErrorResponseDto> dtoList = new ArrayList<>();
-        result.getFieldErrors().forEach(fieldError -> {
-            ErrorResponseDto errorResponseDto = ErrorResponseDto.builder()
-                    .field(fieldError.getField())
-                    .message(fieldError.getDefaultMessage())
-                    .build();
-            dtoList.add(errorResponseDto);
-        });
-        return dtoList;
+        return result.getFieldErrors().stream().map(fieldError -> ErrorResponseDto.builder()
+                .field(fieldError.getField())
+                .message(fieldError.getDefaultMessage())
+                .build()).collect(Collectors.toList());
     }
 
     public static Response getFailureResponse(BindingResult result, String message) {
