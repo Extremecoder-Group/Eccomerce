@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +39,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({HttpMediaTypeNotSupportedException.class, HttpMediaTypeNotAcceptableException.class})
     public final ResponseEntity<Object> handleHttpMediaTypeError(Exception ex) {
+        // todo: modify response
         HttpStatus httpStatus = ex instanceof HttpMediaTypeNotSupportedException ?
                 HttpStatus.UNSUPPORTED_MEDIA_TYPE : HttpStatus.NOT_ACCEPTABLE;
         log.error("{}", ex);
@@ -58,6 +57,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public final ResponseEntity<Object> handleHttpMessageNotReadableError(Exception ex) {
+        // todo: modify response
         log.error("{}", ex);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST.value())
@@ -141,23 +141,21 @@ public class GlobalExceptionHandler {
         // todo: modify response
         log.error(ex.getMessage());
 
-        Map<String, Object> body = new HashMap<>();
 
         //Get all errors
         List<String> errors = new ArrayList<>();
 
-        for (ObjectError allError : ex.getBindingResult().getAllErrors()) {
-            if (allError instanceof FieldError) {
-                errors.add(((FieldError) allError).getField() + " " + allError.getDefaultMessage());
-            } else if (allError instanceof ObjectError) {
-                errors.add(allError.getDefaultMessage());
+        ex.getBindingResult().getAllErrors().forEach(objectError -> {
+            if (objectError instanceof FieldError) {
+                errors.add(((FieldError) objectError).getField() + " " + objectError.getDefaultMessage());
+            } else if (objectError != null) {
+                errors.add(objectError.getDefaultMessage());
             }
-        }
+        });
 
-        body.put("message", errors);
         log.error("errors: " + errors);
 
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(Map.of("message", errors), HttpStatus.BAD_REQUEST);
     }
 
     //todo prepare common error response method()
