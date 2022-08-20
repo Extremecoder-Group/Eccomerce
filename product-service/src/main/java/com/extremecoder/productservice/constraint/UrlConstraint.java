@@ -9,8 +9,6 @@ public final class UrlConstraint {
 
     public static class ProductManagement {
         public static final String ROOT = "/api" + VERSION1 + "/products";
-        public static final String DELETE = "/{productId}";
-        public static final String GET = "/{productId}";
-        public static final String PUT = "/{productId}";
+        public static final String PROD_ID = "/{productId}";
     }
 }
