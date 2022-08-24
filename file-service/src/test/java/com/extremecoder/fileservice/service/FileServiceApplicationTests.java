@@ -1,6 +1,5 @@
-package com.extremecoder.fileservice;
+package com.extremecoder.fileservice.service;
 
-import com.extremecoder.fileservice.service.FileStorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
