@@ -1,4 +1,4 @@
-package com.extremecoder.productservice;
+package com.extremecoder.productservice.service;
 
 import com.extremecoder.productservice.model.Product;
 import com.extremecoder.productservice.repository.ProductRepository;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class ProductServiceApplicationTests {
+class ProductServiceTest {
 
     @Autowired
     ProductService productService;
