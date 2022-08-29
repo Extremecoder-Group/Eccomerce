@@ -33,11 +33,6 @@ public class FileController {
        return fileStorageService.storeFile(file);
     }
 
-    @GetMapping("test")
-    public String test() {
-        return "Hello World!";
-    }
-
     @PostMapping("/uploadMultipleFiles")
     public List<FileInfo> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
         return fileStorageService.uploadMultipleFiles(files);
