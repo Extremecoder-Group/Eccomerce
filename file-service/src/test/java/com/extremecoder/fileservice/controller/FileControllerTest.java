@@ -2,7 +2,6 @@ package com.extremecoder.fileservice.controller;
 
 import com.extremecoder.fileservice.model.FileInfo;
 import com.extremecoder.fileservice.service.FileStorageService;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,6 @@ import static org.mockito.Mockito.when;
  * @author Badrul
  */
 
-@Slf4j
 @ExtendWith(MockitoExtension.class)
 class FileControllerTest {
 
@@ -44,7 +42,6 @@ class FileControllerTest {
 
     @BeforeAll
     static void beforeAll() {
-        log.info("*** FileControllerTest.beforeAll()***");
 
         sampleFile1 = new MockMultipartFile(fileName1, fileName1, "text/plain", "Hello World! from 1".getBytes());
 
@@ -55,27 +52,23 @@ class FileControllerTest {
     @Test
     @DisplayName("when uploadFile() is called then upload single file")
     void uploadFile() {
-        log.info("*** FileControllerTest.uploadFile() -- started -- ***");
 
-
+        // Arrange
         FileInfo fileInfo = FileInfo.builder().fileName(fileName1).originalFilename(fileName1).build();
 
-        log.info("Original fileName: " + fileInfo.getOriginalFilename());
-
+        // Act
         when(fileStorageService.storeFile(sampleFile1)).thenReturn(fileInfo);
 
+        // Assert
         FileInfo fileInfoResponse = fileController.uploadFile(sampleFile1);
 
         assertEquals(fileInfo.getOriginalFilename(), fileInfoResponse.getOriginalFilename());
-
-        log.info("*** FileControllerTest.uploadFile() -- ended -- ***");
 
     }
 
     @Test
     @DisplayName("when uploadMultipleFiles() is called then upload multiple files")
     void uploadMultipleFiles() {
-        log.info("*** FileControllerTest.uploadMultipleFiles() -- started -- ***");
 
         List<FileInfo> fileInfos = List.of(
                 FileInfo.builder()
@@ -100,14 +93,12 @@ class FileControllerTest {
                 .collect(Collectors.toList()).stream().sorted()
                 .collect(Collectors.toList());
 
-        log.debug("responseFileNames: " + responseFileNames);
 
         List<String> fileNames = fileInfos
                 .stream().map(FileInfo::getOriginalFilename)
                 .collect(Collectors.toList()).stream().sorted()
                 .collect(Collectors.toList());
 
-        log.debug("fileNames: " + fileNames);
 
         assertEquals(fileNames, responseFileNames);
     }
