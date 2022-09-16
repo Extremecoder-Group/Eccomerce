@@ -15,16 +15,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,7 +45,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     public FileInfo storeFile(MultipartFile file) {
-        String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+        String originalFilename = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
         try {
             if(originalFilename.contains("..")) {
@@ -55,10 +53,9 @@ public class FileStorageServiceImpl implements FileStorageService {
             }
             String extension = FilenameUtils.getExtension(originalFilename);
             UUID uuid = UUID.randomUUID();
-            String fileName = new StringBuilder()
-                    .append(uuid.toString())
-                    .append(FileConstant.DOT)
-                    .append(extension).toString();
+            String fileName = uuid +
+                    FileConstant.DOT +
+                    extension;
 
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
@@ -72,9 +69,8 @@ public class FileStorageServiceImpl implements FileStorageService {
                     .build();
             fileInfo = fileInfoRepository.save(fileInfo);
             fileInfo.setFilePath(
-                    new StringBuilder()
-                            .append(fileInfo.getFilePath())
-                            .append(fileInfo.getFileId()).toString()
+                    fileInfo.getFilePath() +
+                            fileInfo.getFileId()
             );
             fileInfo = fileInfoRepository.save(fileInfo);
             return fileInfo;
@@ -85,9 +81,8 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
     public List<FileInfo> uploadMultipleFiles(MultipartFile[] files) {
-        return Arrays.asList(files)
-                .stream()
-                .map(file -> storeFile(file))
+        return Arrays.stream(files)
+                .map(this::storeFile)
                 .collect(Collectors.toList());
     }
 

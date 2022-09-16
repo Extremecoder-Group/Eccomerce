@@ -1,16 +1,14 @@
 package com.extremecoder.productservice.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class Product extends BaseEntity {
     @Id
@@ -20,14 +18,14 @@ public class Product extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(length = 2000, nullable = true)
+    @Column(length = 2000)
     private String description;
 
     @ManyToOne
-    @JoinColumn(name="imageId", nullable = true)
+    @JoinColumn(name = "imageId")
     private ImageInformation image;
 
     @ManyToOne
-    @JoinColumn(name = "categoryId", nullable = true)
+    @JoinColumn(name = "categoryId")
     private Category category;
 }
