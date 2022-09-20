@@ -3,7 +3,7 @@ services:
   service-registry:
     container_name: service-registry-app
     build:
-      context: docker-service-registry
+      context: service-registry
       dockerfile: Dockerfile
     image: service-registry-app:latest
     ports:
