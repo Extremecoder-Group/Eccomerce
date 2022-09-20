@@ -1,28 +1,44 @@
 package com.extremecoder.productservice.model;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Builder
+@RequiredArgsConstructor
 public class Category extends BaseEntity {
     @Id
-    @GeneratedValue
-    private Long categoryId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "imageId")
-    private ImageInformation image;
+    private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "parentCategory")
-    private Category parentCategory;
+    private Boolean isParent;
+
+    //    @ManyToOne
+//    @JoinColumn(name = "parentCategory")
+//    private Category parentCategory;
+
+
+//    @Column(nullable = false)
+//    private String name;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "imageId")
+//    private ImageInformation image;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "parentCategory")
+//    private Category parentCategory;
 }
