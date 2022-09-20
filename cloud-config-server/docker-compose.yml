@@ -1,0 +1,6 @@
+version: '3.9'
+services:
+  config-server-app:
+    build: .
+    ports:
+      - "9900:9900"
