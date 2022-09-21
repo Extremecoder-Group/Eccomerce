@@ -1,6 +1,15 @@
 version: '3.9'
 services:
-  service-registry-app:
-    build: .
+  service-registry-api:
+    image: 'service-registry'
+    build:
+      context: .
+    container_name: service-registry-app
     ports:
       - "8761:8761"
+    networks:
+      - extreme-network
+
+networks:
+ extreme-network:
+    external: true

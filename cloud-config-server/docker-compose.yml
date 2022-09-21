@@ -1,6 +1,15 @@
 version: '3.9'
 services:
-  config-server-app:
-    build: .
+  config-server-api:
+    image: 'config-server'
+    build:
+      context: .
+    container_name: config-server-app
     ports:
       - "9900:9900"
+    networks:
+      - extreme-network
+
+networks:
+  extreme-network:
+    external: true
