@@ -8,7 +8,7 @@ spring:
   config:
     import: optional:configserver:http://localhost:9900
   datasource:
-    url: jdbc:postgresql://localhost:5432/productdb?createDatabaseIfNotExist=true
+    url: jdbc:postgresql://localhost:5432/productdb
     username: postgres
     password: root
   jpa:
