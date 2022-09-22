@@ -21,7 +21,8 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = Category.builder()
                 .name(request.getName())
                 .description(request.getDescription())
-                .isParent(request.getIsParent()).build();
+                .isParent(request.getIsParent())
+                .build();
 
         return categoryRepository.save(category);
     }

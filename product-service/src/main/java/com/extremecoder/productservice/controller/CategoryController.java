@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class CategoryController {
 
 
     @PostMapping
-    public ResponseEntity<Category> create(@RequestBody CategoryRegistrationRequest request){
+    public ResponseEntity<Category> create(@Valid @RequestBody CategoryRegistrationRequest request){
         return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
     }
 }

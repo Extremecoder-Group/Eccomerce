@@ -1,5 +1,6 @@
 package com.extremecoder.productservice.exception;
 
+import com.extremecoder.productservice.dto.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class GlobalExceptionHandler {
         // todo: modify response
         HttpStatus httpStatus = ex instanceof HttpMediaTypeNotSupportedException ?
                 HttpStatus.UNSUPPORTED_MEDIA_TYPE : HttpStatus.NOT_ACCEPTABLE;
-        log.error("{}", ex);
+        log.error("{handleHttpMediaTypeError}", ex);
         return ResponseEntity
                 .status(httpStatus)
                 .header(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -58,7 +59,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public final ResponseEntity<Object> handleHttpMessageNotReadableError(Exception ex) {
         // todo: modify response
-        log.error("{}", ex);
+        log.error("{handleHttpMessageNotReadableError}", ex);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST.value())
                 .header(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -112,7 +113,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<?> handleIllegalArgumentException(Throwable ex) {
         // todo: modify response
-        log.error("{}", ex);
+        log.error("{handleIllegalArgumentException}", ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
@@ -125,7 +126,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<Object> handleInternalException(Throwable ex) {
         // todo: modify response
-        log.error("{}", ex);
+        log.error("{RuntimeException}", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
