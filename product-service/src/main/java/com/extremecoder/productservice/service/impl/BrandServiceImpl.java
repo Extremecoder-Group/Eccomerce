@@ -2,6 +2,7 @@ package com.extremecoder.productservice.service.impl;
 
 import com.extremecoder.productservice.dto.BrandDto;
 import com.extremecoder.productservice.mapper.BrandMapper;
+import com.extremecoder.productservice.mapper.MappingProvider;
 import com.extremecoder.productservice.model.Brand;
 import com.extremecoder.productservice.repository.BrandRepository;
 import com.extremecoder.productservice.service.BrandService;
@@ -18,7 +19,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public void save(BrandDto brandDto) {
-        Brand brand = brandMapper.toEntity(brandDto);
+        Brand brand = MappingProvider.BRAND_MAPPER.toEntity(brandDto);
         /*TODO Brand Name can't be duplicate*/
         brandRepository.save(brand);
         log.info("Saved Brand With Id {}", brand.getId());
