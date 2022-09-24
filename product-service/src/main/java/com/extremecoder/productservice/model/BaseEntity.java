@@ -2,9 +2,11 @@ package com.extremecoder.productservice.model;
 
 import com.extremecoder.productservice.enums.ActiveStatus;
 
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Date;
 
+@MappedSuperclass
 public class BaseEntity implements Serializable {
 
     private ActiveStatus activeStatus = ActiveStatus.ACTIVE;
