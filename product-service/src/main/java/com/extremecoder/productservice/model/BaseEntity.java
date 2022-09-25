@@ -1,37 +1,30 @@
 package com.extremecoder.productservice.model;
 
 import com.extremecoder.productservice.enums.ActiveStatus;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@MappedSuperclass
+@Getter
+@Setter
+@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity implements Serializable {
 
     private ActiveStatus activeStatus = ActiveStatus.ACTIVE;
-    private Date dateCreated = new Date();
-    private Date updatedDate;
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    private Date createdDate;
+    @LastModifiedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    private Date lastModifiedDate;
 
-    public ActiveStatus getActiveStatus() {
-        return activeStatus;
-    }
-
-    public void setActiveStatus(ActiveStatus activeStatus) {
-        this.activeStatus = activeStatus;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
 }

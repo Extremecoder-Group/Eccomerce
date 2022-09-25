@@ -1,7 +1,7 @@
 package com.extremecoder.productservice.controller;
 
 import com.extremecoder.productservice.dto.CategoryRegistrationRequest;
-import com.extremecoder.productservice.model.Category;
+import com.extremecoder.productservice.model.CategoryEntity;
 import com.extremecoder.productservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,12 @@ public class CategoryController {
 
 
     @PostMapping
-    public ResponseEntity<Category> create(@Valid @RequestBody CategoryRegistrationRequest request){
+    public ResponseEntity<CategoryEntity> create(@Valid @RequestBody CategoryRegistrationRequest request) {
+
+//        Response response = ResponseBuilder.getSuccessResponse(
+//                HttpStatus.OK,
+//                "Created",
+//                service.create(request));
         return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
     }
 }

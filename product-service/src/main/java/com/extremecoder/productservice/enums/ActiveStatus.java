@@ -1,8 +1,9 @@
 package com.extremecoder.productservice.enums;
 
 public enum ActiveStatus {
+    DELETED(0),
     ACTIVE(1),
-    DELETED(0);
+    INACTIVE(2);
 
     private int value;
 
