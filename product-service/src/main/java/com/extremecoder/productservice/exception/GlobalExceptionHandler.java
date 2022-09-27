@@ -1,5 +1,6 @@
 package com.extremecoder.productservice.exception;
 
+import com.extremecoder.productservice.dto.FieldErrorResponse;
 import com.extremecoder.productservice.dto.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
@@ -18,8 +19,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Global Exception Handler
@@ -138,25 +139,50 @@ public class GlobalExceptionHandler {
      * @return the response entity
      */
     @ExceptionHandler({BindException.class})
-    public ResponseEntity<Object> handleBindException(BindException ex) {
-        // todo: modify response
+    public ResponseEntity<Response<Object, Object>> handleBindException(BindException ex) {
         log.error(ex.getMessage());
-
 
         //Get all errors
         List<String> errors = new ArrayList<>();
 
+        List<FieldErrorResponse> fieldErrors = new ArrayList<>();
+
         ex.getBindingResult().getAllErrors().forEach(objectError -> {
             if (objectError instanceof FieldError) {
-                errors.add(((FieldError) objectError).getField() + " " + objectError.getDefaultMessage());
+                fieldErrors.add(new FieldErrorResponse(((FieldError) objectError).getField(), objectError.getDefaultMessage()));
             } else if (objectError != null) {
                 errors.add(objectError.getDefaultMessage());
             }
         });
 
+        Response<Object, Object> response = Response.builder()
+                .timeStamp(new Date())
+                .message("invalid request")
+                .messageCode("12")
+                .status("BAD_REQUEST")
+                .statusCode(1)
+                .errors(fieldErrors.isEmpty() ? errors : fieldErrors)
+                .build();
+
         log.error("errors: " + errors);
 
-        return new ResponseEntity<>(Map.of("message", errors), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({BaseException.class})
+    public ResponseEntity<Response<Object, Object>> handleBaseException(Throwable ex) {
+        log.warn(ex.getMessage());
+
+        Response<Object, Object> response = Response.builder()
+                .timeStamp(new Date())
+                .message(((BaseException) ex).getMessage())
+                .messageCode(((BaseException) ex).getCode())
+                .status("BAD_REQUEST")
+                .statusCode(1)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
     }
 
     //todo prepare common error response method()

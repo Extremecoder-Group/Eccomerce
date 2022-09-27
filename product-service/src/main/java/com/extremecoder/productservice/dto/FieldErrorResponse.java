@@ -7,7 +7,9 @@ import lombok.*;
 @Setter
 @Getter
 @Builder
-public class ErrorResponseDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class FieldErrorResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String field;
     @JsonInclude(JsonInclude.Include.NON_NULL)
