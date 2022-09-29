@@ -18,11 +18,6 @@ public class Response<T, U> {
     private String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T content;
-    //    @JsonInclude(JsonInclude.Include.NON_NULL)
-//    private Integer numberOfElement;
-//    @JsonInclude(JsonInclude.Include.NON_NULL)
-//    private Long rowCount;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private U errors;
-//    private List<FieldErrorResponse> errors;
 }

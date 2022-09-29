@@ -27,7 +27,7 @@ public class CategoryEntity extends BaseEntity {
     private String description;
 
     @Column(name = "is_parent", nullable = false)
-    private Boolean isParent = Boolean.TRUE;
+    private boolean isParent = Boolean.TRUE;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
