@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +29,7 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<Response<Object, Object>> create(@Valid @RequestBody CategoryRegistrationRequest request) {
-
+        log.info("*** CategoryController.create() ***");
         log.debug("request: " + request.toString());
 
         Response<Object, Object> response = Response.builder()
@@ -43,8 +44,27 @@ public class CategoryController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<Response<Object, Object>> update(@PathVariable Long id,
+                                                           @Valid @RequestBody CategoryRegistrationRequest request) {
+        log.info("*** CategoryController.update() ***");
+        log.debug("request: " + request.toString());
+
+        Response<Object, Object> response = Response.builder()
+                .message("Success")
+                .messageCode("1234")
+                .status("OK")
+                .statusCode(200)
+                .content(service.update(request, id))
+                .timeStamp(new Date())
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<Response<Object, Object>> getCategory(@PathVariable Long id) {
+        log.info("*** CategoryController.getCategory() ***");
         log.debug("request id: " + id);
 
         Response<Object, Object> response = Response.builder()
@@ -61,7 +81,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<Response<Object, Object>> getAllCategories() {
-        log.debug("*** CategoryController.getAllCategories() ***");
+        log.info("*** CategoryController.getAllCategories() ***");
 
         Response<Object, Object> response = Response.builder()
                 .message("Success")

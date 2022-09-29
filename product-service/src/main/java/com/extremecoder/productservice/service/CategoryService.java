@@ -8,8 +8,9 @@ import java.util.List;
 public interface CategoryService {
     Long create(CategoryRegistrationRequest request);
 
-    List<CategoryDetail> getAllCategories();
+    Long update(CategoryRegistrationRequest request, Long id);
 
+    List<CategoryDetail> getAllCategories();
 
     CategoryDetail getCategory(Long id);
 }
