@@ -60,15 +60,4 @@ public final class ResponseBuilder {
                 .build();
     }
 
-//    public static Response getSuccessResponse(HttpStatus status, String message, Object content, int numberOfElement, Long rowCount) {
-//        return Response.builder()
-//                .message(message)
-//                .status(status.getReasonPhrase())
-//                .statusCode(status.value())
-//                .content(content)
-//                .timeStamp(LocalDateTime.now())
-//                .numberOfElement(numberOfElement)
-//                .rowCount(rowCount)
-//                .build();
-//    }
 }
