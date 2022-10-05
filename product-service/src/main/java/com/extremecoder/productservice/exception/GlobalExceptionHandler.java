@@ -1,7 +1,7 @@
 package com.extremecoder.productservice.exception;
 
 import com.extremecoder.productservice.dto.FieldErrorResponse;
-import com.extremecoder.productservice.dto.Response;
+import com.extremecoder.productservice.dto.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -139,7 +139,7 @@ public class GlobalExceptionHandler {
      * @return the response entity
      */
     @ExceptionHandler({BindException.class})
-    public ResponseEntity<Response<Object, Object>> handleBindException(BindException ex) {
+    public ResponseEntity<Object> handleBindException(BindException ex) {
         log.error(ex.getMessage());
 
         //Get all errors
@@ -155,7 +155,7 @@ public class GlobalExceptionHandler {
             }
         });
 
-        Response<Object, Object> response = Response.builder()
+        ApiResponse<Object, Object> apiResponse = ApiResponse.builder()
                 .timeStamp(new Date())
                 .message("invalid request")
                 .messageCode("12")
@@ -166,14 +166,14 @@ public class GlobalExceptionHandler {
 
         log.error("errors: " + errors);
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({BaseException.class})
-    public ResponseEntity<Response<Object, Object>> handleBaseException(Throwable ex) {
+    public ResponseEntity<Object> handleBaseException(Throwable ex) {
         log.warn(ex.getMessage());
 
-        Response<Object, Object> response = Response.builder()
+        ApiResponse<Object, Object> apiResponse = ApiResponse.builder()
                 .timeStamp(new Date())
                 .message(((BaseException) ex).getMessage())
                 .messageCode(((BaseException) ex).getCode())
@@ -181,7 +181,7 @@ public class GlobalExceptionHandler {
                 .statusCode(1)
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
 
     }
 

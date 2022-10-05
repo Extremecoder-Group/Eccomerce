@@ -1,7 +1,7 @@
 package com.extremecoder.productservice.controller;
 
+import com.extremecoder.productservice.dto.ApiResponse;
 import com.extremecoder.productservice.dto.BrandDto;
-import com.extremecoder.productservice.dto.Response;
 import com.extremecoder.productservice.service.BrandService;
 import com.extremecoder.productservice.utils.ResponseBuilder;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class BrandController {
     private final BrandService brandService;
 
     @PostMapping
-    public Response saveBrand(@Valid @RequestBody BrandDto brandDto) {
+    public ApiResponse saveBrand(@Valid @RequestBody BrandDto brandDto) {
         brandDto = brandService.save(brandDto);
         log.info("Saving brand with name {}", brandDto.getName());
         return ResponseBuilder.getSuccessResponse(HttpStatus.OK, String.join("Brand {} saved successfully",
