@@ -20,3 +20,5 @@ spring:
           lob:
             non_contextual_creation: true
     show-sql: true
+  liquibase:
+    change-log: liquibase/main-changelog.xml

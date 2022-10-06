@@ -21,14 +21,15 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity implements Serializable {
 
+    @Column(name = "active_status", nullable = false)
     private ActiveStatus activeStatus = ActiveStatus.ACTIVE;
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
+    @Column(name = "created_date", nullable = false)
     private Date createdDate;
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
+    @Column(name = "last_modified_date", nullable = false)
     private Date lastModifiedDate;
 
 }
