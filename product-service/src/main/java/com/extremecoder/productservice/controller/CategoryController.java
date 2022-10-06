@@ -6,7 +6,6 @@ import com.extremecoder.productservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.Locale;
 
 @Slf4j
 @RestController
@@ -36,13 +36,13 @@ public class CategoryController {
         log.info("*** CategoryController.create() ***");
         log.debug("request: " + request.toString());
 
-        String message = messageSource.getMessage(
-                "message.api.success", null,
-                LocaleContextHolder.getLocale());
-
 //        String message = messageSource.getMessage(
 //                "message.api.success", null,
-//                Locale.forLanguageTag("bn-BD"));
+//                LocaleContextHolder.getLocale());
+
+        String message = messageSource.getMessage(
+                "message.api.success", null,
+                Locale.forLanguageTag("bn-BD"));
 
         ApiResponse<Object, Object> apiResponse = ApiResponse.builder()
                 .message(message)
