@@ -13,5 +13,8 @@
     <changeSet id="category" author="Badrul">
         <sqlFile path="${baseDir}/category.sql"/>
     </changeSet>
+    <changeSet id="brand" author="Badrul">
+        <sqlFile path="${baseDir}/brand.sql"/>
+    </changeSet>
 
 </databaseChangeLog>
