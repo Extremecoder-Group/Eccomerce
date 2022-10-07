@@ -1,9 +1,18 @@
 package com.extremecoder.productservice.service;
 
-import com.extremecoder.productservice.dto.CategoryDto;
+import com.extremecoder.productservice.dto.CategoryDetail;
+import com.extremecoder.productservice.dto.CategoryRegistrationRequest;
 
 import java.util.List;
 
 public interface CategoryService {
-    List<CategoryDto> getAllCategories();
+    Long create(CategoryRegistrationRequest request);
+
+    Long update(CategoryRegistrationRequest request, Long id);
+
+    List<CategoryDetail> getAllCategories();
+
+    CategoryDetail getCategory(Long id);
+
+    void delete(Long id);
 }

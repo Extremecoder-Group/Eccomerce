@@ -13,10 +13,12 @@ spring:
     password: root
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         jdbc:
           lob:
             non_contextual_creation: true
     show-sql: true
+  liquibase:
+    change-log: liquibase/main-changelog.xml

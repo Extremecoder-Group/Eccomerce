@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Product extends BaseEntity {
@@ -27,5 +27,5 @@ public class Product extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "categoryId")
-    private Category category;
+    private CategoryEntity categoryEntity;
 }

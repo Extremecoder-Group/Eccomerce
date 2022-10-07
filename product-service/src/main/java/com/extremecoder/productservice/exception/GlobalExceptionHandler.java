@@ -1,5 +1,7 @@
 package com.extremecoder.productservice.exception;
 
+import com.extremecoder.productservice.dto.FieldErrorResponse;
+import com.extremecoder.productservice.dto.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,8 +19,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Global Exception Handler
@@ -42,7 +44,7 @@ public class GlobalExceptionHandler {
         // todo: modify response
         HttpStatus httpStatus = ex instanceof HttpMediaTypeNotSupportedException ?
                 HttpStatus.UNSUPPORTED_MEDIA_TYPE : HttpStatus.NOT_ACCEPTABLE;
-        log.error("{}", ex);
+        log.error("{handleHttpMediaTypeError}", ex);
         return ResponseEntity
                 .status(httpStatus)
                 .header(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -58,7 +60,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public final ResponseEntity<Object> handleHttpMessageNotReadableError(Exception ex) {
         // todo: modify response
-        log.error("{}", ex);
+        log.error("{handleHttpMessageNotReadableError}", ex);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST.value())
                 .header(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -112,7 +114,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<?> handleIllegalArgumentException(Throwable ex) {
         // todo: modify response
-        log.error("{}", ex);
+        log.error("{handleIllegalArgumentException}", ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
@@ -125,7 +127,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<Object> handleInternalException(Throwable ex) {
         // todo: modify response
-        log.error("{}", ex);
+        log.error("{RuntimeException}", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
@@ -138,24 +140,49 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({BindException.class})
     public ResponseEntity<Object> handleBindException(BindException ex) {
-        // todo: modify response
         log.error(ex.getMessage());
-
 
         //Get all errors
         List<String> errors = new ArrayList<>();
 
+        List<FieldErrorResponse> fieldErrors = new ArrayList<>();
+
         ex.getBindingResult().getAllErrors().forEach(objectError -> {
             if (objectError instanceof FieldError) {
-                errors.add(((FieldError) objectError).getField() + " " + objectError.getDefaultMessage());
+                fieldErrors.add(new FieldErrorResponse(((FieldError) objectError).getField(), objectError.getDefaultMessage()));
             } else if (objectError != null) {
                 errors.add(objectError.getDefaultMessage());
             }
         });
 
+        ApiResponse<Object, Object> apiResponse = ApiResponse.builder()
+                .timeStamp(new Date())
+                .message("invalid request")
+                .messageCode("12")
+                .status("BAD_REQUEST")
+                .statusCode(1)
+                .errors(fieldErrors.isEmpty() ? errors : fieldErrors)
+                .build();
+
         log.error("errors: " + errors);
 
-        return new ResponseEntity<>(Map.of("message", errors), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({BaseException.class})
+    public ResponseEntity<Object> handleBaseException(Throwable ex) {
+        log.warn(ex.getMessage());
+
+        ApiResponse<Object, Object> apiResponse = ApiResponse.builder()
+                .timeStamp(new Date())
+                .message(((BaseException) ex).getMessage())
+                .messageCode(((BaseException) ex).getCode())
+                .status("BAD_REQUEST")
+                .statusCode(1)
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
+
     }
 
     //todo prepare common error response method()
